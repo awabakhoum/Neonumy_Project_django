@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Picture gallery{% endblock %}
+
+{% block content %}
+    <h1>Picture gallery</h1>
+
+    <div class="gallery" style="display: flex; flex-wrap: wrap; justify-content: center;">
+        {% for image in images %}
+            <div class="image-card" style="margin: 10px; text-align: center; border: 1px solid #ddd; padding: 10px; border-radius: 8px; box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);">
+                <img src="{{ image.image.url }}" alt="Image" style="width: 150px; height: auto; border-radius: 5px;">
+                <div class="buttons" style="margin-top: 5px;">
+                    <a href="{% url 'image_detail' image.id %}" style="background-color: #007BFF; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none;">Détails</a>
+                    <form action="{% url 'delete_image' image.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: red; color: white; padding: 5px 10px; border-radius: 5px; border: none;">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        {% empty %}
+            <p>Aucune image disponible.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
